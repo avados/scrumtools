@@ -1,0 +1,5 @@
+/db.sqlite3
+/venv/
+/scrumtools/private_settings.py
+/.idea/
+/static_root/admin/

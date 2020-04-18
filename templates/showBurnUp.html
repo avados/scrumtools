@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Scrumtools: show burn up</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'burnup/style.css' %}">
+    <script src="{% static 'burnup/Chart.bundle.min.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
+    <script src="{% static 'burnup/burnup.js' %}"></script>
+</head>
+<body>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>
+{% else %}
+
+    <div style="width:100%;">
+        <canvas id="canvas"></canvas>
+    </div>
+
+    <script>
+        empty_values = []
+        for (i=0; i< {{ real }}.length;i++)
+        {
+            if (i!= {{ real }}.length -1 )
+                empty_values.push(null)
+            else
+                empty_values.push({{ real }}[{{ real }}.length-1])
+        }
+        average =
+        empty_values.concat({{ average }})
+        best =
+        empty_values.concat({{ best }})
+        worst =
+        empty_values.concat({{ worst }})
+        real = {{ real }}
+            labels = []
+        for (i = 1; i < best.length; i++) {
+            labels.push("Sprint " + i)
+        }
+        load_chart(labels, real, average, worst, best)
+
+
+    </script>
+
+{% endif %}
+
+<form>
+    <div>Please enter velocities values separated by comma or semicolon.</div>
+
+    <input type="text" id="velocities" placeholder="12,9,15,17,13" required pattern="^[\d,\s]+$"
+           name="velocities"><br><br>
+    <button type="submit" formmethod="get">OK</button>
+</form>
+
+<script>
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const velocities = urlParams.get('velocities')
+    document.getElementById("velocities").value = velocities;
+</script>
+
+</body>
+</html>
