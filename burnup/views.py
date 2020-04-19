@@ -26,7 +26,18 @@ def showburnup(request):
     # could use get parameter : param1 = request.GET.get("param1", None)
     values = request.GET.get("velocities", None)
     real = average = best = worst = error_message = None
-    method = request.GET.get("type", CalculusType.XBESTWORST)
+    method = request.GET.get("method", None)
+    if method is not None:
+        try:
+            method = CalculusType(int(method))
+        except:
+            method = CalculusType.XBESTWORST
+    else:
+        method = CalculusType.XBESTWORST
+
+    if method != CalculusType.XBESTWORST and method != CalculusType.STANDARDDEV:
+        method = CalculusType.XBESTWORST
+
     # TODO add a type to choose between standard deviation and 3 best/worst values
     try:
         if values is not None:
@@ -35,7 +46,10 @@ def showburnup(request):
             best = get_best_forecast(parse_list_of_number(values), method)
             worst = get_worst_forecast(parse_list_of_number(values), method)
         else:
-            error_message = "Please enter velocities values separated by comma or semicolon."
+            real = []
+            average = []
+            best = []
+            worst = []
     except Exception as e:
         logger.error(e)
         error_message = "Invalid values, Please enter velocities values separated by comma or semicolon."

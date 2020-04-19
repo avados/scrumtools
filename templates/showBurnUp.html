@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <title>Scrumtools: show burn up</title>
     {% load static %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
     <link rel="stylesheet" href="{% static 'burnup/style.css' %}">
     <script src="{% static 'burnup/Chart.bundle.min.js' %}"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script>
@@ -20,22 +23,27 @@
     </div>
 
     <script>
-        empty_values = []
-        for (i=0; i< {{ real }}.length;i++)
-        {
-            if (i!= {{ real }}.length -1 )
-                empty_values.push(null)
-            else
-                empty_values.push({{ real }}[{{ real }}.length-1])
+        real = {{ real }};
+        empty_values = [];
+        for (i = 0; i < real.length;
+             i++
+        ) {
+            if (i != {{ real }}.
+            length - 1
+        )
+            empty_values.push(null)
+        else
+            empty_values.push({{ real }}[{{ real }}.length - 1
+        ])
         }
         average =
-        empty_values.concat({{ average }})
+            empty_values.concat({{ average }})
         best =
-        empty_values.concat({{ best }})
+            empty_values.concat({{ best }})
         worst =
-        empty_values.concat({{ worst }})
-        real = {{ real }}
-            labels = []
+            empty_values.concat({{ worst }})
+
+        labels = []
         for (i = 1; i < best.length; i++) {
             labels.push("Sprint " + i)
         }
@@ -47,11 +55,40 @@
 {% endif %}
 
 <form>
-    <div>Please enter velocities values separated by comma or semicolon.</div>
+    <div class="container">
+        <div class="form-group">
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <p>Please enter velocities values separated by comma:</p>
 
-    <input type="text" id="velocities" placeholder="12,9,15,17,13" required pattern="^[\d,\s]+$"
-           name="velocities"><br><br>
-    <button type="submit" formmethod="get">OK</button>
+                        <input type="text" class="form-control" id="velocities" placeholder="12,9,15,17,13" required
+                               pattern="^[\d,\s]+$"
+                               name="velocities" aria-describedby="velocitieshelp">
+                        <small id="velocitieshelp" class="form-text text-muted">We'll never share your email with anyone
+                            else.</small>
+                    </div>
+                    <p>Please select the method :</p>
+                    <div class="form-check">
+
+                        <input class="form-check-input" type="radio" id="XBESTWORST" name="method" value="1"
+                               checked="checked">
+                        <label for="XBESTWORST" class="form-check-label">Average of the 3 best or worse value over the
+                            last
+                            6
+                            sprints </label><br>
+                        <input class="form-check-input" type="radio" id="STANDARDDEV" name="method" value="2">
+                        <label for="STANDARDDEV" class="form-check-label">Standard deviation from the last 6
+                            sprint</label><br>
+                    </div>
+                    <br>
+                    <button type="submit" formmethod="get" class="btn btn-primary float-right" style="min-width: 100px">
+                        OK
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 </form>
 
 <script>
@@ -59,6 +96,14 @@
     const urlParams = new URLSearchParams(queryString);
     const velocities = urlParams.get('velocities')
     document.getElementById("velocities").value = velocities;
+
+    const method = urlParams.get('method')
+    if (method != null)
+        if (method == 1)
+            document.getElementById('XBESTWORST').checked = true
+        else if (method == 2)
+            document.getElementById('STANDARDDEV').checked = true
+
 </script>
 
 </body>

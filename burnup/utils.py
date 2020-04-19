@@ -2,6 +2,7 @@ import statistics
 from enum import IntEnum
 from typing import Union, List
 
+
 ############################################################
 # used to parse feature files, also used to parse GET parameters
 # see https://behave.readthedocs.io/en/latest/parse_builtin_types.html
@@ -79,19 +80,27 @@ def average_over_last_six_values(numbers) -> float:
     return result
 
 
+# TODO refactor
 def get_best_forecast(list, calculus=CalculusType.XBESTWORST) -> List:
-    high_average = []
+    high_average = 0
     if calculus == calculus.STANDARDDEV:
         high_average = average_standarddev(list)
+        average = average_over_last_six_values(list)
+        forecast = []
+        for i in range(6):
+            if i == 0:
+                forecast.append(round(sum(list) + average + high_average, 2))
+            else:
+                forecast.append(round(forecast[i - 1] + average + high_average, 2))
     else:
         high_average = highest_average_over_last_six_values(list)
+        forecast = []
+        for i in range(6):
+            if i == 0:
+                forecast.append(round(sum(list) + high_average, 2))
+            else:
+                forecast.append(round(forecast[i - 1] + high_average, 2))
 
-    forecast = []
-    for i in range(6):
-        if i == 0:
-            forecast.append(round(sum(list) + high_average, 2))
-        else:
-            forecast.append(round(forecast[i - 1] + high_average, 2))
     return forecast
 
 
@@ -99,15 +108,22 @@ def get_worst_forecast(list, calculus=CalculusType.XBESTWORST) -> List:
     worst_average = []
     if calculus == calculus.STANDARDDEV:
         worst_average = average_standarddev(list)
+        average = average_over_last_six_values(list)
+        forecast = []
+        for i in range(6):
+            if i == 0:
+                forecast.append(round(sum(list) + average - worst_average, 2))
+            else:
+                forecast.append(round(forecast[i - 1] + average - worst_average, 2))
     else:
         worst_average = lowest_average_over_last_six_values(list)
+        forecast = []
+        for i in range(6):
+            if i == 0:
+                forecast.append(round(sum(list) + worst_average, 2))
+            else:
+                forecast.append(round(forecast[i - 1] + worst_average, 2))
 
-    forecast = []
-    for i in range(6):
-        if i == 0:
-            forecast.append(round(sum(list) + worst_average, 2))
-        else:
-            forecast.append(round(forecast[i - 1] + worst_average, 2))
     return forecast
 
 
@@ -127,17 +143,24 @@ def average_standarddev(numbers) -> float:
 
 def get_average_forecast(list, calculus=CalculusType.XBESTWORST):
     average = 0
+    forecast = []
+
     if calculus == calculus.STANDARDDEV:
-        average = average_standarddev(list)
+        stddev = average_standarddev(list)
+        average = average_over_last_six_values(list)
+        for i in range(6):
+            if i == 0:
+                forecast.append(round(sum(list) + average, 2))
+            else:
+                forecast.append(round(forecast[i - 1] + average, 2))
     else:
         average = average_over_last_six_values(list)
+        for i in range(6):
+            if i == 0:
+                forecast.append(round(sum(list) + average, 2))
+            else:
+                forecast.append(round(forecast[i - 1] + average, 2))
 
-    forecast = []
-    for i in range(6):
-        if i == 0:
-            forecast.append(round(sum(list) + average, 2))
-        else:
-            forecast.append(round(forecast[i - 1] + average, 2))
     return forecast
 
 

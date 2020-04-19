@@ -68,9 +68,9 @@ def step_impl(context):
 @then(
     "i can give a best case forecast for the next 6 iterations based on the standard deviation on the last 6 iterations")
 def step_impl(context):
-    assert_that(get_best_forecast(context.data, CalculusType.STANDARDDEV), equal_to([162.78, 175.56, 188.34, 201.12, 213.9, 226.68]))
+    assert_that(get_best_forecast(context.data, CalculusType.STANDARDDEV), equal_to([181.61, 213.22, 244.83, 276.44, 308.05, 339.66]))
 
 @then(
     "i can give a worst case forecast for the next 6 iterations based on the the standard deviation on  the last 6 iterations")
 def step_impl(context):
-    assert_that(get_worst_forecast(context.data, CalculusType.STANDARDDEV), equal_to([162.78, 175.56, 188.34, 201.12, 213.9, 226.68]))
+    assert_that(get_worst_forecast(context.data, CalculusType.STANDARDDEV), equal_to([156.05, 162.1, 168.15, 174.2, 180.25, 186.3]))

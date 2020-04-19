@@ -20,12 +20,22 @@ class TestCalls(TestCase):
         response = client.get(test_reverse)
         self.assertEqual(response.status_code, 200)
 
-    def test_call_view_with_velocities_only(self):
+    def test_call_view_with_comma_velocities_only(self):
         test_reverse = reverse('burnup:showburnup')
         response = client.get(test_reverse, data={'velocities': '1,2,4'})
+        self.assertEqual(response.status_code, 200)
+
+    def test_call_view_with_semicolon_velocities_only(self):
+        test_reverse = reverse('burnup:showburnup')
+        response = client.get(test_reverse, data={'velocities': '1;2:4'})
         self.assertEqual(response.status_code, 200)
 
     def test_call_view_with_invalid_velocities_only(self):
         test_reverse = reverse('burnup:showburnup')
         response = client.get(test_reverse, data={'velocities': 'w,2,4'})
+        self.assertEqual(response.status_code, 200)
+
+    def test_call_view_with_velocities_and_type_XBESTWORST(self):
+        test_reverse = reverse('burnup:showburnup')
+        response = client.get(test_reverse, data={'velocities': '1,2,4', 'type':2})
         self.assertEqual(response.status_code, 200)
