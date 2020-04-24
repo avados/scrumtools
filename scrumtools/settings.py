@@ -30,7 +30,7 @@ try:
 except ImportError:
     pass
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'testserver']
+ALLOWED_HOSTS = ["avados.net",'localhost', '127.0.0.1', 'testserver']
 
 AUTH_USER_MODEL = 'burnup.CustomUser'
 
@@ -123,3 +123,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, "static_root")
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "burnup/static"),
+]
