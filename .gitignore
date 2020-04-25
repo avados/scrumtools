@@ -1,7 +1,8 @@
 /db.sqlite3
 /venv/
-/scrumtools/private_settings.py
+/scrumtools/local_settings.py
 /.idea/
 /static_root/admin/
 /coverage_html_report/
 /static_root/
+/scrumtools/local_settings.py
