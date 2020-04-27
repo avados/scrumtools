@@ -21,16 +21,15 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'your secret key'
 
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
 try:
-    from local_settings import *
+    from .local_settings import *
 except ImportError:
     pass
 
-ALLOWED_HOSTS = ["avados.net",'localhost', '127.0.0.1', 'testserver']
+ALLOWED_HOSTS = ["avados.net", 'localhost', '127.0.0.1', 'testserver']
 
 AUTH_USER_MODEL = 'burnup.CustomUser'
 
@@ -44,7 +43,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'burnup.apps.BurnupConfig',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
 ]
+
+# for allauth
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -70,10 +76,20 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                # `allauth` needs this from django
+                'django.template.context_processors.request',
             ],
         },
     },
 ]
+AUTHENTICATION_BACKENDS = (
+
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
 
 WSGI_APPLICATION = 'scrumtools.wsgi.application'
 
@@ -130,3 +146,11 @@ STATICFILES_DIRS = [
 
 ASGI_APPLICATION = "scrumtools.routing.application"
 
+# Allauth
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_AUTHENTICATION_METHOD = "email"
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_EMAIL_VERIFICATION = "optional"
+
+LOGIN_REDIRECT_URL = '/'

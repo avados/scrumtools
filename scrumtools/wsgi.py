@@ -10,6 +10,11 @@ https://docs.djangoproject.com/en/3.0/howto/deployment/wsgi/
 import os
 
 from django.core.wsgi import get_wsgi_application
+import sys
+
+# added to fix an issue where project library is not found
+# TODO change hard coded path
+sys.path = ['/var/lib/jenkins/workspace/django_burnup/'] + sys.path
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'scrumtools.settings')
 

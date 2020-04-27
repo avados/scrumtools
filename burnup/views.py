@@ -61,3 +61,13 @@ def showburnup(request):
         'average': average,
         'error_message': error_message
     })
+
+
+def register(request):
+    try:
+        return render(request, "register.html", {
+        })
+    except ObjectDoesNotExist:
+        logger.error('ERROR')
+        return render(request, 'register.html', {
+        })

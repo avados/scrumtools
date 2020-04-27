@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'burnup/bootstrap.min.css' %}" type="text/css">
+</head>
+<body>
+
+
+<form>
+    <div class="container">
+        <fieldset>
+            <legend>Create an account</legend>
+
+            <div class="form-group">
+                <label for="inputName">Name</label>
+                <input type="text" class="form-control" id="inputName" aria-describedby="nameHelp"
+                       placeholder="Enter email" data-cip-id="inputName">
+                <small id="nameHelp" class="form-text text-muted">How should we call you?</small>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail">Email address</label>
+                <input type="email" class="form-control" id="inputEmail" aria-describedby="emailHelp"
+                       placeholder="Enter email" data-cip-id="inputEmail">
+                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
+                    else.</small>
+            </div>
+            <div class="form-group">
+                <label for="inputPassword">Password</label>
+                <input type="password" class="form-control" id="inputPassword" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{12,}" placeholder="Password"
+                       data-cip-id="inputPassword" aria-describedby="pwdHelp">
+                <small id="pwdHelp" class="form-text text-muted">Must contain at least one number and one uppercase and lowercase letter, and at least 12 or more characters
+                    else.</small>
+            </div>
+            <button type="submit" formmethod="get" class="btn btn-primary float-right" style="min-width: 100px">
+                        OK
+                    </button>
+        </fieldset>
+    </div>
+</form>
+
+</body>
+</html>
