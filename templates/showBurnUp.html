@@ -1,6 +1,6 @@
 {% extends "account/base.html" %}
 {% load i18n %}
-{% block head_title %}{% trans "Scrumtools: show burn up" %}{% endblock %}
+{% block head_title %}{% trans "Scrumtools: Burnup" %}{% endblock %}
 
 {% block extra_head %}
     {% load static %}
@@ -28,13 +28,10 @@
             for (i = 0; i < real.length;
                  i++
             ) {
-                if (i != {{ real }}.
-                length - 1
-            )
+                if (i != real.length - 1)
                 empty_values.push(null)
             else
-                empty_values.push({{ real }}[{{ real }}.length - 1
-            ])
+                empty_values.push(real[real.length - 1])
             }
             average =
                 empty_values.concat({{ average }})
@@ -60,14 +57,12 @@
                 <div class="row">
                     <div class="col">
                         <div class="form-group">
-                            <p>Please enter velocities values separated by comma:</p>
+                            <p>Velocities:</p>
 
                             <input type="text" class="form-control" id="velocities" placeholder="12,9,15,17,13" required
                                    pattern="^[\d,\s]+$"
                                    name="velocities" aria-describedby="velocitieshelp">
-                            <small id="velocitieshelp" class="form-text text-muted">We'll never share your email with
-                                anyone
-                                else.</small>
+                            <small id="velocitieshelp" class="form-text text-muted"> Enter velocities values separated by a comma.</small>
                         </div>
                         <p>Please select the method :</p>
                         <div class="form-check">
