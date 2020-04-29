@@ -103,4 +103,32 @@ function load_chart(labels, real, average, worst, best) {
     }
     var ctx = document.getElementById("canvas").getContext("2d");
     window.myLine = new Chart(ctx, config);
+
+}
+
+
+function set_scope(scope) {
+    var scope_dataset = {
+        label: "Scope",
+        fill: false,
+        backgroundColor: 'rgb(191,3,150)',
+        borderColor: 'rgb(191,3,150)',
+        data: scope,
+        lineTension: 0,
+        pointRadius: 1,
+        pointHoverRadius: 1,
+        datalabels: { display : false
+                    }
+    }
+     window.myLine.data.datasets.push(scope_dataset);
+    window.myLine.update();
+}
+
+function update_values_from_get(id){
+    const elem = urlParams.get(id)
+    if (elem != null)
+    {
+        document.getElementById(id).value = elem;
+    }
+    return elem;
 }

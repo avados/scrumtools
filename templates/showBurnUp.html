@@ -29,9 +29,9 @@
                  i++
             ) {
                 if (i != real.length - 1)
-                empty_values.push(null)
-            else
-                empty_values.push(real[real.length - 1])
+                    empty_values.push(null)
+                else
+                    empty_values.push(real[real.length - 1])
             }
             average =
                 empty_values.concat({{ average }})
@@ -62,7 +62,15 @@
                             <input type="text" class="form-control" id="velocities" placeholder="12,9,15,17,13" required
                                    pattern="^[\d,\s]+$"
                                    name="velocities" aria-describedby="velocitieshelp">
-                            <small id="velocitieshelp" class="form-text text-muted"> Enter velocities values separated by a comma.</small>
+                            <small id="velocitieshelp" class="form-text text-muted"> Enter velocities values separated
+                                by a comma.</small>
+
+                            <p>Scope:</p>
+
+                            <input type="text" class="form-control" id="scope" placeholder="150 or 50,50,100,200"
+                                   pattern="^[\d,\s]+$"
+                                   name="scope" aria-describedby="scopeshelp">
+                            <small id="scopeshelp" class="form-text text-muted"> Enter scope values.</small>
                         </div>
                         <p>Please select the method :</p>
                         <div class="form-check">
@@ -92,8 +100,24 @@
     <script>
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
-        const velocities = urlParams.get('velocities')
-        document.getElementById("velocities").value = velocities;
+
+        update_values_from_get("velocities")
+        update_values_from_get("scope")
+
+        {#const velocities = urlParams.get('velocities')#}
+        {#document.getElementById("velocities").value = velocities;#}
+        {##}
+        {#const scope = urlParams.get('scope')#}
+        {#document.getElementById("scope").value = scope;#}
+        scope_values = document.getElementById("scope").value
+        if (scope_values !== null) {
+            scope_array = scope_values.split(",");
+            while (scope_array.length < labels.length )
+            {
+                scope_array.push(scope_array[scope_array.length-1])
+            }
+            set_scope(scope_array)
+        }
 
         const method = urlParams.get('method')
         if (method != null)
