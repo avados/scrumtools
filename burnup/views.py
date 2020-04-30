@@ -27,6 +27,7 @@ def showburnup(request):
     values = request.GET.get("velocities", None)
     real = average = best = worst = error_message = None
     method = request.GET.get("method", None)
+    scope = request.GET.get("scope", None)
     if method is not None:
         try:
             method = CalculusType(int(method))
@@ -38,7 +39,6 @@ def showburnup(request):
     if method != CalculusType.XBESTWORST and method != CalculusType.STANDARDDEV:
         method = CalculusType.XBESTWORST
 
-    # TODO add a type to choose between standard deviation and 3 best/worst values
     try:
         if values is not None:
             real = get_real_progress(parse_list_of_number(values))
@@ -54,11 +54,18 @@ def showburnup(request):
         logger.error(e)
         error_message = "Invalid values, Please enter velocities values separated by comma or semicolon."
 
+    ext_scope = None
+    if scope is not None:
+        ext_scope = get_extended_scope(scope, len(real) + len(average))
+
     return render(request, "showBurnUp.html", {
+        'original_values': values,
         'real': real,
         'best': best,
         'worst': worst,
         'average': average,
+        'scope': scope,
+        'ext_scope': ext_scope,
         'error_message': error_message
     })
 

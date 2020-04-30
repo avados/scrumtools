@@ -61,7 +61,8 @@
 
                             <input type="text" class="form-control" id="velocities" placeholder="12,9,15,17,13" required
                                    pattern="^[\d,\s]+$"
-                                   name="velocities" aria-describedby="velocitieshelp">
+                                   name="velocities" aria-describedby="velocitieshelp" {% if original_values %}
+                                   value="{{ original_values }}" {% endif %}>
                             <small id="velocitieshelp" class="form-text text-muted"> Enter velocities values separated
                                 by a comma.</small>
 
@@ -69,7 +70,8 @@
 
                             <input type="text" class="form-control" id="scope" placeholder="150 or 50,50,100,200"
                                    pattern="^[\d,\s]+$"
-                                   name="scope" aria-describedby="scopeshelp">
+                                   name="scope" aria-describedby="scopeshelp" {% if scope %}
+                                   value="{{ scope }}" {% endif %}>
                             <small id="scopeshelp" class="form-text text-muted"> Enter scope values.</small>
                         </div>
                         <p>Please select the method :</p>
@@ -101,23 +103,9 @@
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
 
-        update_values_from_get("velocities")
-        update_values_from_get("scope")
-
-        {#const velocities = urlParams.get('velocities')#}
-        {#document.getElementById("velocities").value = velocities;#}
-        {##}
-        {#const scope = urlParams.get('scope')#}
-        {#document.getElementById("scope").value = scope;#}
-        scope_values = document.getElementById("scope").value
-        if (scope_values !== null) {
-            scope_array = scope_values.split(",");
-            while (scope_array.length < labels.length )
-            {
-                scope_array.push(scope_array[scope_array.length-1])
-            }
-            set_scope(scope_array)
-        }
+        {% if ext_scope %}
+            set_scope({{ ext_scope }})
+        {% endif %}
 
         const method = urlParams.get('method')
         if (method != null)

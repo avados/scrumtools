@@ -54,3 +54,4 @@ Feature: burnup
   Scenario: Calculate worst forecast for the next 6 iterations using the 3 worst iterations
     Given i have a list of past sprint velocity
     Then i can give a worst case forecast for the next 6 iterations based on the the standard deviation on  the last 6 iterations
+

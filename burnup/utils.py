@@ -1,8 +1,9 @@
 import statistics
 from enum import IntEnum
 from typing import Union, List
+import logging
 
-
+logger = logging.getLogger(__name__)
 ############################################################
 # used to parse feature files, also used to parse GET parameters
 # see https://behave.readthedocs.io/en/latest/parse_builtin_types.html
@@ -172,3 +173,27 @@ def get_real_progress(list):
         else:
             real.append(real[idx - 1] + val)
     return real
+
+
+def get_extended_scope(scope, size_to_extend):
+    if scope is None:
+        return None
+    try:
+        ext_scope = []
+        if type(scope) == int:
+            ext_scope.append(scope)
+        elif type(scope) == list:
+            ext_scope = scope
+        else:
+            ext_scope = scope.split(",")
+            ext_scope = list(map(int, ext_scope))
+    except Exception as e :
+        logger.error("Error converting scope:"+scope+" ; " + str(e))
+        return None
+
+    if size_to_extend is None:
+        return ext_scope
+    else:
+        while len(ext_scope) < size_to_extend:
+            ext_scope.append(ext_scope[len(ext_scope) - 1])
+    return ext_scope
