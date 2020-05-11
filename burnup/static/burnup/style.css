@@ -1,7 +1,22 @@
 li a {
     color: green;
 }
+
 #footer {
     margin: 5em 0;
 }
 
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    padding: 8px;
+    text-align: center;
+}
+
+tr:nth-child(odd) {
+    background-color: #EB6864B0 ;
+}

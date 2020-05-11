@@ -60,3 +60,5 @@ class TestCalls(TestCase):
         scope = "6,10,12"
         ext_scope = get_extended_scope(scope, 5)
         assert_that(ext_scope, equal_to([6, 10, 12, 12, 12]))
+
+        #todo test views/templates see https://test-driven-django-development.readthedocs.io/en/latest/03-views.html
